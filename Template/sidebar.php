@@ -14,13 +14,9 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                         User
                     </a>
-                    <a class="nav-link" href="<?= $main_url ?>index.php">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-key"></i></div>
-                        Ganti Password
-                    </a>
                     <hr class="mb-0">
                     <div class="sb-sidenav-menu-heading">Peripheral</div>
-                    <a class="nav-link" href="<?= $main_url ?>index.php">
+                    <a class="nav-link" href="<?= $main_url ?>Stock/stock.php">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
                         Stock
                     </a>
@@ -37,7 +33,8 @@
             </div>
             <div class="sb-sidenav-footer border">
                 <div class="small">Logged in as:</div>
-                <?= "Admin" ?>
+                <div class="text-capitalize"><?= $_SESSION['userLogin'] ?></div>
+
             </div>
         </nav>
     </div>

@@ -1,5 +1,10 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['login'])) {
+  header("Location: ../login.php");
+  exit;
+}
 require_once "../function.php";
 
 $title = "Dashboard - Peripheral MIS";
@@ -7,16 +12,12 @@ require_once "../Template/header.php";
 require_once "../Template/navbar.php";
 require_once "../Template/sidebar.php";
 
-//Jika Tombol Simpan Regis Di klik
-if (isset($_POST['simpan'])) {
-  registrasi($_POST);
-}
+
 
 ?>
 
 <div id="layoutSidenav_content">
   <main>
-
     <div class="container-fluid px-4">
       <h1 class="mt-4">Tambah User</h1>
       <ol class="breadcrumb mb-4">
@@ -31,6 +32,20 @@ if (isset($_POST['simpan'])) {
             <button type="reset" name="reset" class="btn btn-danger float-end me-1"><i class="fa-solid fa-xmark"></i> Reset</button>
           </div>
           <div class="card-body">
+            <?php
+            //Jika Tombol Simpan Regis Di klik
+            if (isset($_POST['simpan'])) {
+              if ($registrasi = registrasi($_POST) > 0) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                User berhasil di tambahkan.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+              };
+            }
+            ?>
+            <?php if (isset($registrasi['error'])) : ?>
+              <p><?= $registrasi['pesan']; ?></p>
+            <?php endif; ?>
             <div class="row">
               <div class="col-8">
                 <div class="mb-3 row">
@@ -53,7 +68,7 @@ if (isset($_POST['simpan'])) {
                   <div class="col-sm-8" style="margin-left: -40px;">
                     <select required autocomplete="off" name="roles" id="roles" class="form-select border-0 border-bottom">
                       <option value="" selected>--Pilih Roles--</option>
-                      <option value="Admin">Administrator</option>
+                      <option value="Administrator">Administrator</option>
                       <option value="User">User</option>
                     </select>
                   </div>
@@ -74,7 +89,6 @@ if (isset($_POST['simpan'])) {
                 </div>
               </div>
               <div class="col-4">
-
               </div>
             </div>
           </div>

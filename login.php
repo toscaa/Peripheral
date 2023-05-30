@@ -1,5 +1,19 @@
 <?php
-require 'function.php' ?>
+session_start();
+
+if (isset($_SESSION['login'])) {
+  header("Location: index.php");
+  exit;
+}
+
+require 'function.php';
+
+//Ketika tombol login di tekan 
+if (isset($_POST['login'])) {
+  $login = login($_POST);
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +26,7 @@ require 'function.php' ?>
   <meta name="author" content="" />
   <title>Login Peripheral - MIS</title>
   <link href="<?= $main_url ?>Asset/sb-admin/css/styles.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="<?= $main_url ?>Asset/image/computer-set.png" type="image/x-icon">
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
@@ -26,14 +41,17 @@ require 'function.php' ?>
                 <div class="card-header">
                   <h3 class="text-center font-weight-light my-4">Login</h3>
                 </div>
+                <?php if (isset($login['error'])) : ?>
+                  <p><?= $login['pesan']; ?></p>
+                <?php endif; ?>
                 <div class="card-body">
-                  <form>
+                  <form action="" method="POST">
                     <div class="form-floating mb-3">
-                      <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                      <input class="form-control" id="username" type="text" name="username" placeholder="Username" autofocus autocomplete="off" required />
                       <label for="inputEmail">Username</label>
                     </div>
                     <div class="form-floating mb-3">
-                      <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                      <input class="form-control" name="password" id="password" type="password" placeholder="Password" autocomplete="off" required />
                       <label for="inputPassword">Password</label>
                     </div>
                     <div class="form-check mb-3">
@@ -42,12 +60,12 @@ require 'function.php' ?>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                       <a class="small" href="password.html">Forgot Password?</a>
-                      <a class="btn btn-primary" href="index.html">Login</a>
+                      <button type="submit" name="login" id="login" class="btn btn-primary float-end">Login</button>
                     </div>
                   </form>
                 </div>
                 <div class="card-footer text-center py-3">
-                  <div class="small"><a href="register.php">Need an account? Sign up!</a></div>
+                  <div class="small"><a href="<?= $main_url ?>User/register.php">Need an account? Sign up!</a></div>
                 </div>
               </div>
             </div>
@@ -59,7 +77,7 @@ require 'function.php' ?>
       <footer class="py-4 bg-light mt-auto">
         <div class="container-fluid px-4">
           <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+            <div class="text-muted">Copyright &copy; PT. Industri Karet Deli 2023</div>
             <div>
               <a href="#">Privacy Policy</a>
               &middot;
